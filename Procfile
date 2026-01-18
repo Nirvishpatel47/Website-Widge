@@ -1,0 +1,1 @@
+web: gunicorn -w 2 -k uvicorn.workers.UvicornWorker frontend_fastapi:app --bind 0.0.0.0:$PORT

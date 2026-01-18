@@ -1,0 +1,38 @@
+rank-bm25
+# Web
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+gunicorn==21.2.0
+python-multipart==0.0.6
+jinja2==3.1.3
+
+# Validation & Settings (Pydantic v2 aligned)
+pydantic>=2.5
+pydantic-settings
+email-validator
+
+# HTTP
+requests
+httpx
+
+# Firebase & GCP
+firebase-admin==6.4.0
+google-cloud-secret-manager==2.18.2
+google-cloud-firestore==2.14.0
+
+# Security
+cryptography==42.0.2
+python-dotenv==1.0.1
+PyJWT
+
+# LangChain (keep versions aligned)
+langchain==0.1.20 
+langchain-community==0.0.38 
+langchain-core==0.1.52
+
+# Vector DB
+faiss-cpu
+
+# Utilities
+python-dateutil==2.8.2
+pymupdf
