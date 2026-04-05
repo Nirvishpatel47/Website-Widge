@@ -9,6 +9,7 @@ An embeddable, multi-tenant AI chat widget backend that businesses can drop onto
 ## 📋 Table of Contents
 
 - [Overview](#overview)
+- [The Problem It Solves](#The-Problem-It-Solves)
 - [Features](#features)
 - [Architecture](#architecture)
 - [Project Structure](#project-structure)
@@ -33,6 +34,24 @@ This platform provides a **white-label AI chatbot widget** that any business can
 The system is **fully stateful** — each visitor's conversation history, language preference, lead status, complaints, and feedback are tracked per session in Firebase Firestore.
 
 ---
+
+## The Problem It Solves
+Most websites suffer from a **"Leaky Funnel"**—potential customers visit the site, look around, and leave because they lack immediate direction or a quick way to get answers. 
+
+* **Uncaptured Leads:** Anonymous visitors browse without leaving contact info, resulting in lost sales opportunities.
+* **Lack of Direction:** Without a guided path, users feel overwhelmed by information and drop off before taking action.
+* **The "Human Gap":** Small businesses can't monitor their website 24/7. When a lead is ready to engage at 2 AM, there is no one there to guide them, leading to a missed conversion.
+
+### The Solution
+This system acts as an intelligent, 24/7 concierge that transforms passive visitors into qualified leads through automated, high-intent conversations.
+
+* **Instant Engagement:** Replaces static contact forms with a proactive AI agent that greets visitors the moment they show interest.
+* **Intent Recognition:** The backend uses specialized keyword mapping (`BUY`, `CONTACT`, `DECISION`) to identify high-value visitors and prioritize their needs.
+* **Automated Lead Qualification:** Instead of just "chatting," the system is engineered to detect and capture vital contact information (Email/Phone) while filtering out refusals.
+* **RAG-Driven Expertise:** Uses Retrieval-Augmented Generation to answer complex, business-specific questions accurately, ensuring the visitor feels "heard" and directed toward the right product or service.
+* **Seamless Handover:** Bridges the gap between a "curious visitor" and a "warm lead" by storing interaction history in Firebase, allowing business owners to follow up with full context.
+
+--
 
 ## Features
 
