@@ -51,7 +51,7 @@ This system acts as an intelligent, 24/7 concierge that transforms passive visit
 * **RAG-Driven Expertise:** Uses Retrieval-Augmented Generation to answer complex, business-specific questions accurately, ensuring the visitor feels "heard" and directed toward the right product or service.
 * **Seamless Handover:** Bridges the gap between a "curious visitor" and a "warm lead" by storing interaction history in Firebase, allowing business owners to follow up with full context.
 
---
+---
 
 ## Features
 
