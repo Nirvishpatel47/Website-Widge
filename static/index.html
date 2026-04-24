@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Bot - Register/Login</title>
+    <style>
+        /* Define Color Variables */
+        :root {
+            --color-primary: rgb(33, 52, 72);    /* Deep Blue/Slate */
+            --color-secondary: rgb(84, 119, 146);  /* Slate Blue */
+            --color-accent: rgb(148, 180, 193);  /* Light Blue/Gray */
+            --color-background: rgb(234, 224, 207); /* Cream/Off-White */
+            --color-text-dark: #2c3e50;
+            --color-text-light: #f4f6f9;
+            --color-success: #10b981;
+            --color-error: #ef4444;
+        }
+
+        /*
+         * RESET & BASE STYLES
+         */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--color-background);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /*
+         * CONTAINER STYLES
+         */
+        .container {
+            background: var(--color-text-light);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(33, 52, 72, 0.1), 0 4px 10px rgba(33, 52, 72, 0.05);
+            max-width: 480px;
+            width: 100%;
+            padding: 40px;
+            transition: all 0.3s ease-in-out;
+            border: 1px solid rgba(148, 180, 193, 0.3);
+        }
+        
+        .dashboard-container {
+            max-width: 850px;
+            padding: 50px;
+        }
+        
+        h1 {
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        /*
+         * TAB STYLES
+         */
+        .form-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--color-accent);
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px 0;
+            text-align: center;
+            cursor: pointer;
+            color: var(--color-secondary);
+            font-weight: 600;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-size: 16px;
+        }
+        
+        .tab:hover {
+            color: var(--color-primary);
+        }
+        
+        .tab.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+        
+        .form-container {
+            display: none;
+        }
+        
+        .form-container.active {
+            display: block;
+        }
+        
+        /*
+         * FORM GROUP STYLES
+         */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--color-text-dark);
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--color-accent);
+            border-radius: 8px;
+            font-size: 15px;
+            color: var(--color-text-dark);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background-color: var(--color-text-light);
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--color-secondary);
+            box-shadow: 0 0 0 3px rgba(84, 119, 146, 0.2);
+        }
+        
+        /*
+         * FILE INPUT STYLES
+         */
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+        
+        .file-input-label {
+            display: block;
+            padding: 12px 15px;
+            background: var(--color-background);
+            border: 2px dashed var(--color-accent);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            color: var(--color-secondary);
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .file-input-label:hover {
+            background: var(--color-text-light);
+            border-color: var(--color-secondary);
+            color: var(--color-primary);
+        }
+        
+        /*
+         * BUTTON STYLES
+         */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s, box-shadow 0.3s;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(33, 52, 72, 0.2);
+        }
+        
+        .btn:hover:not(:disabled) {
+            background-color: var(--color-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(33, 52, 72, 0.3);
+        }
+        
+        .btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        
+        /*
+         * MESSAGE STYLES
+         */
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /*
+         * DASHBOARD STYLES
+         */
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .dashboard-header {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            padding: 35px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(33, 52, 72, 0.4);
+        }
+
+        .dashboard-header h2 {
+            margin-bottom: 8px;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .dashboard-header p {
+            opacity: 0.9;
+            font-size: 15px;
+        }
+
+        .code-section {
+            background: var(--color-text-light);
+            border: 1px solid var(--color-accent);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .code-section h3 {
+            color: var(--color-primary);
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .code-box {
+            background: #2d3748; /* Darker slate for contrast */
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 14px;
+            word-break: break-all;
+            position: relative;
+            margin-bottom: 15px;
+            overflow-x: auto;
+        }
+
+        .copy-btn {
+            background: var(--color-secondary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .copy-btn:hover {
+            background: var(--color-primary);
+            transform: translateY(-1px);
+        }
+
+        .copy-btn.copied {
+            background: var(--color-success);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .info-card {
+            background: var(--color-background);
+            border: 1px solid var(--color-accent);
+            border-radius: 10px;
+            padding: 15px;
+            transition: box-shadow 0.2s;
+        }
+
+        .info-card:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card .label {
+            color: var(--color-secondary);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .info-card .value {
+            color: var(--color-primary);
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .logout-btn {
+            background: var(--color-error);
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container" id="authContainer">
+        <h1>🤖 WhatsApp Bot</h1>
+        
+        <div class="message" id="message"></div>
+        
+        <div class="form-tabs">
+            <div class="tab active" data-tab="register">Register</div>
+            <div class="tab" data-tab="login">Login</div>
+        </div>
+        
+        <div class="form-container active" id="register">
+            <form id="registerForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Business Name *</label>
+                    <input type="text" name="business_name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Business Type *</label>
+                    <select name="business_type" required>
+                        <option value="">Select Type</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="retail">Retail</option>
+                        <option value="service">Service</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Owner Name *</label>
+                    <input type="text" name="owner_name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="tel" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Password *</label>
+                    <input type="password" name="password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Upload Document (Optional)</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" name="uploaded_file" id="fileInput" accept=".pdf,.txt,.doc,.docx">
+                        <label for="fileInput" class="file-input-label" id="fileLabel">
+                            📄 Choose a file or drag here
+                        </label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn">Create Account</button>
+            </form>
+        </div>
+        
+        <div class="form-container" id="login">
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Password *</label>
+                    <input type="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="btn">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container dashboard-container dashboard" id="dashboardContainer">
+        <div class="dashboard-header">
+            <h2>Welcome, <span id="businessName"></span>! 🎉</h2>
+            <p>Your WhatsApp bot is ready to deploy</p>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="label">Owner</div>
+                <div class="value" id="ownerName">-</div>
+            </div>
+            <div class="info-card">
+                <div class="label">Business Type</div>
+                <div class="value" id="businessType">-</div>
+            </div>
+            <div class="info-card">
+                <div class="label">Plan</div>
+                <div class="value" id="planType">-</div>
+            </div>
+             </div>
+
+        <div class="code-section">
+            <h3>🔑 Your Client Token</h3>
+            <p style="color: var(--color-secondary); font-size: 14px; margin-bottom: 15px;">
+                Use this token to authenticate API requests and integrate with your WhatsApp bot.
+            </p>
+            <div class="code-box" id="tokenBox">Loading...</div>
+            <button class="copy-btn" onclick="copyToken()">
+                <span>📋</span> Copy Token
+            </button>
+        </div>
+
+        <div class="code-section">
+            <h3>🚀 Quick Start Integration</h3>
+            <p style="color: var(--color-secondary); font-size: 14px; margin-bottom: 15px;">
+                Use this code snippet to integrate the bot into your application.
+            </p>
+            <div class="code-box" id="integrationCode">Loading...</div>
+            <button class="copy-btn" onclick="copyIntegrationCode()">
+                <span>📋</span> Copy Code
+            </button>
+        </div>
+
+        <button class="btn logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+                
+                this.classList.add('active');
+                document.getElementById(this.dataset.tab).classList.add('active');
+                hideMessage();
+            });
+        });
+
+        // File input label update
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const label = document.getElementById('fileLabel');
+            if (e.target.files.length > 0) {
+                label.textContent = '✅ ' + e.target.files[0].name;
+            } else {
+                label.textContent = '📄 Choose a file or drag here';
+            }
+        });
+
+        // Show/Hide messages
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            messageEl.style.display = 'block';
+        }
+
+        function hideMessage() {
+            document.getElementById('message').style.display = 'none';
+        }
+
+        // Register Form
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Creating Account...';
+            
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Store token and show dashboard
+                    localStorage.setItem('clientToken', data.code);
+                    
+                    // Get user data from form
+                    const userData = {
+                        'Business Name': formData.get('business_name'),
+                        'Owner Name': formData.get('owner_name'),
+                        'Business Type': formData.get('business_type'),
+                        'Email': formData.get('email'),
+                        'Plan': 'free'
+                    };
+                    
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                    showDashboard(data.code, userData);
+                } else {
+                    showMessage(data.detail || 'Registration failed', 'error');
+                }
+            } catch (error) {
+                showMessage('Network error. Please try again.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Create Account';
+            }
+        });
+
+        // Login Form
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Signing In...';
+            
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: formData.get('email'),
+                        password: formData.get('password')
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Get token from client_data
+                    const token = data.client_data.token || data.client_data.Token;
+                    localStorage.setItem('clientToken', token);
+                    localStorage.setItem('userData', JSON.stringify(data.client_data));
+                    
+                    showDashboard(token, data.client_data);
+                } else {
+                    showMessage(data.detail || 'Login failed', 'error');
+                }
+            } catch (error) {
+                showMessage('Network error. Please try again.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Sign In';
+            }
+        });
+
+        // Show Dashboard
+        function showDashboard(token, userData) {
+            document.getElementById('authContainer').classList.add('hidden');
+            document.getElementById('dashboardContainer').classList.add('active');
+            
+            // Populate user info
+            document.getElementById('businessName').textContent = userData['Business Name'] || userData.business_name || 'User';
+            document.getElementById('ownerName').textContent = userData['Owner Name'] || userData.owner_name || '-';
+            document.getElementById('businessType').textContent = userData['Business Type'] || userData.business_type || '-';
+            document.getElementById('planType').textContent = (userData.Plan || userData.plan || 'free').toUpperCase();
+            // document.getElementById('emailDisplay').textContent = userData.Email || userData.email || '-'; // Removed email display
+            
+            // Show token
+            document.getElementById('tokenBox').textContent = token;
+            
+            // Generate integration code
+            const integrationCode =
+            '<script src="https://crevoxega.onrender.com/widget.js" ' +
+            'data-client="' + token + '"></scr' + 'ipt>';        
+            document.getElementById('integrationCode').textContent = integrationCode;
+        }
+
+        // Copy functions
+        function copyToken() {
+            const token = document.getElementById('tokenBox').textContent;
+            copyToClipboard(token, event.target);
+        }
+
+        function copyIntegrationCode() {
+            const code = document.getElementById('integrationCode').textContent;
+            copyToClipboard(code, event.target);
+        }
+
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.innerHTML;
+                button.innerHTML = '<span>✅</span> Copied!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('clientToken');
+            localStorage.removeItem('userData');
+            document.getElementById('dashboardContainer').classList.remove('active');
+            document.getElementById('authContainer').classList.remove('hidden');
+            
+            // Reset forms
+            document.getElementById('registerForm').reset();
+            document.getElementById('loginForm').reset();
+            document.getElementById('fileLabel').textContent = '📄 Choose a file or drag here';
+        }
+
+        // Check if already logged in on page load
+        window.addEventListener('load', function() {
+            const token = localStorage.getItem('clientToken');
+            const userData = localStorage.getItem('userData');
+            
+            if (token && userData) {
+                showDashboard(token, JSON.parse(userData));
+            }
+        });
+    </script>
+</body>
+</html>
