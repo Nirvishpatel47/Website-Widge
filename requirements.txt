@@ -1,3 +1,4 @@
+cachetools==5.3.2
 rank-bm25
 # Web
 fastapi==0.109.0
