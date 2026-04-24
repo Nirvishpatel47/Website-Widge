@@ -1,6 +1,6 @@
 (function () {
   /* ---------- CONFIG ---------- */
-  const BACKEND_URL = "https://crevoxega.onrender.com/chat";
+  const BACKEND_URL = "https://crevoxega-tzrt.onrender.com/chat";
 
   const scriptTag = document.currentScript;
   const CLIENT_TOKEN = scriptTag.getAttribute("data-client");
