@@ -17,8 +17,6 @@ try:
 except Exception as e:
     logger.log_error("SECRETE_JWT_KEY. firebase.py", e)
 
-logger = get_logger()
-
 def get_client(client_id: str) -> Dict | None:
     try:
         if not validate_client_id(client_id):
