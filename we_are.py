@@ -1,4 +1,4 @@
-
+#This file is used for RAG purpose
 def We_are(): 
     text = """
     🤖 How to Use This Chat Widget
